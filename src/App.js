@@ -37,7 +37,7 @@ class App extends Component {
 
             {this.state.weather.icon ? (
               <img
-                src={`/images/${this.state.weather.icon}.png`}
+                src={`public/images/${this.state.weather.icon}.png`}
                 alt={this.state.weather.description}
                 className="weather-icon"
               />
