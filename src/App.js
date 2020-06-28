@@ -1,12 +1,14 @@
 import React, { Component, Fragment, useState } from "react";
 import Geocode from "react-geocode";
 import "./App.css";
+import { Line } from "react-chartjs-2";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      current_hour: new Date().getHours(),
       search_count: 0,
       data: [],
       weather: [],
@@ -67,6 +69,32 @@ class App extends Component {
     );
   };
 
+  getHourlyTemp = () => {
+    let i;
+    let hourlyData = this.state.data.hourly;
+    let hourlyTempArray = [];
+    for (i in hourlyData) {
+      hourlyTempArray.push(hourlyData[i].temp);
+    }
+    return hourlyTempArray;
+  };
+
+  getHoursCount(hours) {
+    var toDate = new Date();
+    var fromDate = new Date();
+    toDate.setTime(toDate.getTime() + hours * 60 * 60 * 1000);
+    var result = [];
+
+    while (fromDate <= toDate) {
+      result.push(fromDate.getHours());
+      // consider using moment.js library to format date
+
+      fromDate.setTime(fromDate.getTime() + 1 * 60 * 60 * 1000);
+    }
+
+    return result;
+  }
+
   render() {
     const {
       data = undefined,
@@ -74,15 +102,51 @@ class App extends Component {
       weather = undefined,
       location_input,
     } = this.state;
-    const { main, clouds, coord, name, sys, wind, current } = this.state.data;
+    const {
+      main,
+      clouds,
+      coord,
+      name,
+      sys,
+      wind,
+      current,
+      hourly,
+    } = this.state.data;
 
-    console.log("data", this.state.data.current);
+    console.log("data", this.state.data);
     console.log("weather", this.state.weather);
+
+    let temp_chart = {
+      labels: this.getHoursCount(48),
+      datasets: [
+        {
+          label: "Temperature",
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          borderCapStyle: "butt",
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: "miter",
+          pointBorderColor: "rgba(75,192,192,1)",
+          pointBackgroundColor: "#fff",
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: this.getHourlyTemp(hourly),
+        },
+      ],
+    };
 
     return (
       <div className="App">
         <div
-          className={`h-screen w-screen z-50 flex content-center items-center align-center justify-center ${
+          className={`h-screen w-screen z-50 flex content-center items-center align-center justify-center fixed bg-white ${
             this.state.location_input_show ? null : "hidden"
           }`}
         >
@@ -102,12 +166,14 @@ class App extends Component {
         <header>
           <div className="bg-blue-900 py-16">
             {location_name ? (
-              <h1 className="text-white text-2xl mb-6">{location_name}</h1>
+              <h1 className="text-white text-3xl font-bold mb-2">
+                {location_name}
+              </h1>
             ) : null}
             {weather.description ? (
               <p className="text-white text-lg">{weather.description}</p>
             ) : null}
-            <div className="mt-16 w-full md:w-6/12 lg:w-3/12 mx-6 flex content-center items-center align-center justify-center">
+            <div className="m-auto mt-6 mb-0 w-full px-6 flex content-center items-center align-center justify-center">
               {weather.icon ? (
                 <img
                   src={`images/${weather.icon}.png`}
@@ -125,7 +191,11 @@ class App extends Component {
             </div>
           </div>
         </header>
-        <main></main>
+        <main className="flex items-center justify-center">
+          <div className="w-fill p-6 md:w-3/6 lg:w-3/6">
+            <Line data={temp_chart} />
+          </div>
+        </main>
       </div>
     );
   }
