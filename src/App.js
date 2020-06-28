@@ -29,7 +29,6 @@ class App extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("state location name", this.state.location_input);
     Geocode.setApiKey(`${process.env.REACT_APP_GOOGLEAPI}`);
 
     // set response language. Defaults to english.
@@ -112,9 +111,6 @@ class App extends Component {
       current,
       hourly,
     } = this.state.data;
-
-    console.log("data", this.state.data);
-    console.log("weather", this.state.weather);
 
     let temp_chart = {
       labels: this.getHoursCount(48),
