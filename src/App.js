@@ -74,9 +74,9 @@ class App extends Component {
       weather = undefined,
       location_input,
     } = this.state;
-    const { main, clouds, coord, name, sys, wind } = this.state.data;
+    const { main, clouds, coord, name, sys, wind, current } = this.state.data;
 
-    console.log("data", this.state.data);
+    console.log("data", this.state.data.current);
     console.log("weather", this.state.weather);
 
     return (
@@ -107,14 +107,22 @@ class App extends Component {
             {weather.description ? (
               <p className="text-white text-lg">{weather.description}</p>
             ) : null}
-
-            {weather.icon ? (
-              <img
-                src={`images/${weather.icon}.png`}
-                alt={weather.description}
-                className="weather-icon text-center rounded-full bg-white p-6 w-32 h-32"
-              />
-            ) : null}
+            <div className="mt-16 w-full md:w-6/12 lg:w-3/12 mx-6 flex content-center items-center align-center justify-center">
+              {weather.icon ? (
+                <img
+                  src={`images/${weather.icon}.png`}
+                  alt={weather.description}
+                  className="weather-icon text-center rounded-full bg-white"
+                />
+              ) : null}
+              {current ? (
+                <div>
+                  <span className="ml-6 text-5xl text-white font-bold">
+                    {Math.floor(current.temp)}&#8451;
+                  </span>
+                </div>
+              ) : null}
+            </div>
           </div>
         </header>
         <main></main>
