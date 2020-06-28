@@ -21,7 +21,7 @@
 .weather-icon {
   width: 100px;
   height: 100px;
-  padding: 15px;
+  padding: 15px 15px 20px;
 }
 
 .App-link {
