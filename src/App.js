@@ -2,6 +2,8 @@ import React, { Component, Fragment, useState } from "react";
 import Geocode from "react-geocode";
 import "./App.css";
 import { Line } from "react-chartjs-2";
+import moment from "moment";
+import "moment-timezone";
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class App extends Component {
       location_name: "",
       location_input: "",
       location_input_show: true,
+      localtime: "",
     };
     // this.handleChange = this.handleChange.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,6 +62,7 @@ class App extends Component {
             this.setState({ weather: data.current.weather[0] });
             this.setState({ location_input_show: false });
             this.setState({ search_count: this.state.search_count + 1 });
+            this.setState({ localtime: data.current.dt });
           })
           .catch(console.log);
       },
@@ -79,8 +83,11 @@ class App extends Component {
   };
 
   getHoursCount(hours) {
+    var dt = this.state.localtime;
+    console.log("dt", dt);
     var toDate = new Date();
     var fromDate = new Date();
+    var fromDate = moment.unix(dt).tz("MST").format("YYYY-MM-DD HH:mm");
     toDate.setTime(toDate.getTime() + hours * 60 * 60 * 1000);
     var result = [];
 
@@ -112,6 +119,8 @@ class App extends Component {
       hourly,
     } = this.state.data;
 
+    console.log("data", data);
+
     let temp_chart = {
       labels: this.getHoursCount(48),
       datasets: [
@@ -134,7 +143,7 @@ class App extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: this.getHourlyTemp(hourly),
+          data: this.getHourlyTemp(hourly, this.state.localtime),
         },
       ],
     };
