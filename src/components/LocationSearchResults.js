@@ -18,7 +18,7 @@ export default class LocationSearchResults extends Component {
           <div className="prod-img text-right w-24">
             {location.weather[0].icon ? (
               <img
-                src={`${process.env.PUBLIC_URL}/images/${location.weather[0].icon}.png`}
+                src={`/weatherapp/images/${location.weather[0].icon}.png`}
                 alt={location.weather[0].description}
                 className="w-2/4 mx-auto align-middle"
               />
@@ -31,7 +31,7 @@ export default class LocationSearchResults extends Component {
           </div>
           <div className="prod-cta text-right mx-6">
             <a
-              href={`${process.env.PUBLIC_URL}/#/location/${location.coord.lat}/${location.coord.lon}`}
+              href={`/weatherapp/#/location/${location.coord.lat}/${location.coord.lon}`}
               className="px-6 py-2 transition ease-in duration-200 uppercase rounded-full hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none align-middle"
             >
               View
