@@ -61,16 +61,16 @@ export default class App extends Component {
           location_input={this.location_input.bind(this)}
         />
         <div className="mt-24">
-          <Router basename={process.env.PUBLIC_URL}>
+          <Router basename="/">
             <Route
               exact
-              path={`/`}
+              path={`/weatherapp/`}
               render={(props) => (
                 <Home {...props} locationResults={location_results} />
               )}
             />
             <Route
-              path={`/location/:lat/:lon`}
+              path={`/weatherapp/location/:lat/:lon`}
               render={(props) => (
                 <WeatherByLocation
                   {...props}
