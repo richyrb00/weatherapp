@@ -61,7 +61,7 @@ export default class App extends Component {
           location_input={this.location_input.bind(this)}
         />
         <div className="mt-24">
-          <Router basename={`/${environment}`}>
+          <Router basename={process.env.PUBLIC_URL}>
             <Route
               exact
               path={`/`}
