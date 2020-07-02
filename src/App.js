@@ -45,6 +45,14 @@ export default class App extends Component {
   render() {
     const { location_results } = this.state;
     console.log("app lr", location_results);
+    let environment;
+
+    if (this.process.env.REACT_APP_NODE_ENV == "production") {
+      environment = "/weatherapp";
+    } else {
+      environment = "";
+    }
+
     return (
       <div>
         <LocationSearch
@@ -56,14 +64,14 @@ export default class App extends Component {
           <Router>
             <Route
               exact
-              path="/"
+              path={`${environment}/`}
               render={(props) => (
                 <Home {...props} locationResults={location_results} />
               )}
             />
             <Route
               exact
-              path="/location/:lat/:lon"
+              path={`${environment}/location/:lat/:lon`}
               render={(props) => (
                 <WeatherByLocation
                   {...props}
