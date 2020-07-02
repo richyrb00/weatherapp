@@ -47,7 +47,7 @@ export default class App extends Component {
     console.log("app lr", location_results);
     let environment;
 
-    if (this.process.env.REACT_APP_NODE_ENV == "production") {
+    if (process.env.REACT_APP_NODE_ENV == "production") {
       environment = "/weatherapp";
     } else {
       environment = "";
