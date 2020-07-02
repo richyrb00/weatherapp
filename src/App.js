@@ -70,7 +70,7 @@ export default class App extends Component {
               )}
             />
             <Route
-              path={`/location/:lat/:lon`}
+              path={`/#/location/:lat/:lon`}
               render={(props) => (
                 <WeatherByLocation
                   {...props}
