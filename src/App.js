@@ -3,7 +3,7 @@ import "./App.css";
 import { Line } from "react-chartjs-2";
 import moment from "moment";
 import "moment-timezone";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import Home from "./Home";
 import WeatherByLocation from "./WeatherByLocation";
 import LocationSearch from "./components/LocationSearch";
@@ -61,16 +61,16 @@ export default class App extends Component {
           location_input={this.location_input.bind(this)}
         />
         <div className="mt-24">
-          <Router basename="/">
+          <HashRouter basename={`${process.env.PUBLIC_URL}`}>
             <Route
               exact
-              path={`/weatherapp/`}
+              path={`/`}
               render={(props) => (
                 <Home {...props} locationResults={location_results} />
               )}
             />
             <Route
-              path={`/weatherapp/location/:lat/:lon`}
+              path={`/location/:lat/:lon`}
               render={(props) => (
                 <WeatherByLocation
                   {...props}
@@ -78,7 +78,7 @@ export default class App extends Component {
                 />
               )}
             />
-          </Router>
+          </HashRouter>
         </div>
       </div>
     );
